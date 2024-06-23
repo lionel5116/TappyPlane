@@ -1,0 +1,49 @@
+[gd_scene load_steps=9 format=3 uid="uid://dhj0xr6dowa7"]
+
+[ext_resource type="Texture2D" uid="uid://bp8gd81n6hgvf" path="res://assets/background/rocks_2.png" id="1_gn3i1"]
+[ext_resource type="Script" path="res://scenes/game/game.gd" id="1_y8bgo"]
+[ext_resource type="PackedScene" uid="uid://bga3bx7qss64l" path="res://scenes/plane/plane.tscn" id="2_hf8p1"]
+[ext_resource type="PackedScene" uid="uid://jwcl4k2cacn8" path="res://scenes/barrier/barrier.tscn" id="3_wfijx"]
+[ext_resource type="PackedScene" uid="uid://dkg0angefoeve" path="res://scenes/pipes/pipes.tscn" id="4_ouklr"]
+[ext_resource type="PackedScene" uid="uid://dkjk3i878vwqy" path="res://scenes/hud/hud.tscn" id="6_dalvn"]
+[ext_resource type="PackedScene" uid="uid://byd4di6k6wg5p" path="res://scenes/game_over/game_over.tscn" id="7_d50oh"]
+[ext_resource type="PackedScene" uid="uid://ddklq3lf0baad" path="res://scenes/scrolling_bg/scrolling_background.tscn" id="8_u0e8a"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_y8bgo")
+pipes_scene = ExtResource("4_ouklr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(326, 236)
+texture = ExtResource("1_gn3i1")
+
+[node name="Plane" parent="." instance=ExtResource("2_hf8p1")]
+position = Vector2(174, 375)
+
+[node name="Barrier" parent="." instance=ExtResource("3_wfijx")]
+position = Vector2(0, -45)
+
+[node name="Floor" parent="." instance=ExtResource("3_wfijx")]
+position = Vector2(0, 774)
+
+[node name="PipesHolder" type="Node" parent="."]
+
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 1.9
+autostart = true
+
+[node name="SpawnUpper" type="Marker2D" parent="."]
+position = Vector2(530, 340)
+
+[node name="SpawnLower" type="Marker2D" parent="."]
+position = Vector2(530, 540)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Hud" parent="CanvasLayer" instance=ExtResource("6_dalvn")]
+
+[node name="GameOver" parent="CanvasLayer" instance=ExtResource("7_d50oh")]
+
+[node name="ScrollingBackground" parent="." instance=ExtResource("8_u0e8a")]
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
